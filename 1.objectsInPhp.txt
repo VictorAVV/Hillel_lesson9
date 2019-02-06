@@ -1,0 +1,119 @@
+1. Приведите практические примеры классов (2-3 примера), объектов этих классов, методов и аттрибутов данных классов.
+
+1.1) Объявление свойства класса
+
+<?php
+class MyClass
+{
+    public $public = 'Public';
+    protected $protected = 'Protected';
+    private $private = 'Private';
+
+    function printHello()
+    {
+        echo $this->public;
+        echo $this->protected;
+        echo $this->private;
+    }
+}
+
+$obj = new MyClass();
+echo $obj->public; // Работает
+echo $obj->protected; // Неисправимая ошибка
+echo $obj->private; // Неисправимая ошибка
+$obj->printHello(); // Выводит Public, Protected и Private
+
+class MyClass2 extends MyClass
+{
+    // Мы можем переопределить общедоступные и защищенные свойства, но не закрытые
+    public $public = 'Public2';
+    protected $protected = 'Protected2';
+
+    function printHello()
+    {
+        echo $this->public;
+        echo $this->protected;
+        echo $this->private;
+    }
+}
+
+$obj2 = new MyClass2();
+echo $obj2->public; // Работает
+echo $obj2->private; // Неопределен
+echo $obj2->protected; // Неисправимая ошибка
+$obj2->printHello(); // Выводит Public2, Protected2, Undefined
+
+?>
+
+--------------------
+
+1.2) Использование конструктора и метода
+
+<?php
+class Member 
+{
+    private $username;
+    private $location;
+    private $homepage;
+
+    public function __construct($username, $location, $homepage) 
+    {
+        $this->username = $username;
+        $this->location = $location;
+        $this->homepage = $homepage;
+    }
+    public function showProfile() 
+    {
+        echo "<dl>";
+        echo "<dt>Username:</dt><dd>$this->username</dd>";
+        echo "<dt>Location:</dt><dd>$this->location</dd>";
+        echo "<dt>Homepage:</dt><dd>$this->homepage</dd>";
+        echo "</dl>";
+    }
+}
+
+$aMember = new Member("fred", "Chicago", "http://example.com/");
+$aMember->showProfile();
+?>
+
+Данный скрипт отобразит на странице следующее:
+
+Username:
+   fred
+Location:
+   Chicago
+Homepage:
+   http://example.com/
+
+--------------------
+
+1.3) Пример наследования
+
+<?php
+class Foo
+{
+    public function printItem($string)
+    {
+        echo 'Foo: ' . $string . PHP_EOL;
+    }
+    public function printPHP()
+    {
+        echo 'PHP просто супер.' . PHP_EOL;
+    }
+}
+
+class Bar extends Foo
+{
+    public function printItem($string)
+    {
+        echo 'Bar: ' . $string . PHP_EOL;
+    }
+}
+
+$foo = new Foo();
+$bar = new Bar();
+$foo->printItem('baz'); // Выведет: 'Foo: baz'
+$foo->printPHP();       // Выведет: 'PHP просто супер' 
+$bar->printItem('baz'); // Выведет: 'Bar: baz'
+$bar->printPHP();       // Выведет: 'PHP просто супер'
+?>
